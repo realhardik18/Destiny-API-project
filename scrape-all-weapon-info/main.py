@@ -12,7 +12,7 @@ driver = Edge(executable_path='edgedriver_win64\msedgedriver.exe',
               options=edge_options)
 
 with open('weaponAndIds.csv', "w") as file:
-    file.write('sno,name,id')
+    file.write('sno,name,id\n')
 
 sno = 1
 
@@ -26,7 +26,7 @@ for page in range(1, 23):
         weaponID = IDpart[:IDpart.index('-')]
         weaponName = item.text
         with open('weaponAndIDS.csv', 'a+') as file:
-            file.write(f'{sno},{weaponName},{weaponID}')
+            file.write(f'{sno},{weaponName},{weaponID}\n')
         print(f'we at {sno}')
         sno += 1
 
