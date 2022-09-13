@@ -15,8 +15,12 @@ for id in all_weapon_ids:
     if resp[id]['inventory']['tierTypeHash'] == 4008398120:
         if 'iconWatermark' in resp[id].keys():
             if 1 in resp[id]['itemCategoryHashes']:
-                uniqueLegendaryWeapons.add(
-                    resp[id]['displayProperties']['name'])
+                try:
+                    if resp[id]['quality']['versions'][0]['powerCapHash'] == 2759499571:
+                        uniqueLegendaryWeapons.add(
+                            resp[id]['displayProperties']['name'])
+                except Exception as e:
+                    pass
 for weapon in uniqueLegendaryWeapons:
     print(weapon)
 print(f'number of weapons in this category->{len(uniqueLegendaryWeapons)}')

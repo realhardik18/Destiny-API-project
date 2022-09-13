@@ -1,6 +1,5 @@
-from creds import BOT_TOKEN, GUILD_ID
+from creds import BOT_TOKEN
 from discord import app_commands
-from DBmethods import GetAllWeapons
 import discord
 import re
 
