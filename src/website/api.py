@@ -1,4 +1,4 @@
-from creds import API_KEY_DESTINY
+from bot.creds import API_KEY_DESTINY
 import requests
 
 base_url = 'https://www.bungie.net/Platform'
