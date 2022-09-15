@@ -10,9 +10,9 @@ app.config['SECRET_KEY'] = APP_SECRET_KEY
 client = APIClient(token=BOT_TOKEN, client_secret=CLIENT_SECRET)
 
 
-@app.route('/')
+@app.route('/login')
 def index():
-    return render_template('index.html', oauth_url=OAUTHURL)
+    return render_template('login.html', oauth_url=OAUTHURL)
 
 
 @app.route('/oauth/callback')
@@ -27,6 +27,16 @@ def callback():
     return str(current_user)
     '''
     return redirect('/')
+
+
+@app.route('/')
+def home():
+    try:
+        bearer_client = APIClient(session['token'], bearer=True)
+        current_user = bearer_client.users.get_current_user()
+        return str(current_user)
+    except KeyError:
+        return redirect('/login')
 
 
 app.run(debug=True)
