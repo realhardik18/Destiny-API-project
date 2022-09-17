@@ -35,8 +35,8 @@ def home():
         bearer_client = APIClient(session['token'], bearer=True)
         current_user = bearer_client.users.get_current_user()
         edit_rights = False
-        # if current_user.id in [686898495063719939,300503128170692620]:
-        if current_user.id in [300503128170692620]:
+        if current_user.id in [686898495063719939, 300503128170692620]:
+            # if current_user.id in [300503128170692620]:
             edit_rights = True
         return render_template('home.html', pfp=current_user.avatar_url, username=current_user.username, id=current_user.discriminator, rights=edit_rights)
     except KeyError:
@@ -48,8 +48,8 @@ def edit():
     try:
         bearer_client = APIClient(session['token'], bearer=True)
         current_user = bearer_client.users.get_current_user()
-        # if current_user.id in [686898495063719939,300503128170692620]:
-        if current_user.id in [300503128170692620]:
+        if current_user.id in [686898495063719939, 300503128170692620]:
+            # if current_user.id in [300503128170692620]:
             return 'you can edit the dashboard items'
         return 'you currently dont have the permissions to edit '
 
