@@ -23,3 +23,15 @@
     text-align: center;
     margin-top: 10px;
 }
+
+.weapon-title{
+    font-size: x-large;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    margin-left: 10px;
+}
+
+.weapons{
+    font-size: large;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    margin-left: 10px;
+}
