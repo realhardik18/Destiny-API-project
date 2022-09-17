@@ -34,7 +34,7 @@ def home():
     try:
         bearer_client = APIClient(session['token'], bearer=True)
         current_user = bearer_client.users.get_current_user()
-        return str(current_user)
+        return render_template('home.html',pfp=current_user.avatar_url,username=current_user.username,id=current_user.discriminator)
     except KeyError:
         return redirect('/login')
 

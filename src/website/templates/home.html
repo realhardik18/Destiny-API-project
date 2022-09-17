@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+
+<body>
+    {% include "navbar.html" %}
+    <div class="card mb-3" style="margin:20px;">
+        <div class="row no-gutters">
+            <div class="col-md-2">
+                <img src="{{pfp}}" class="card-img">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Hello there, Welcome to the dashboard!</h5>
+                    <p class="card-text">You are currently logged in as <i>{{username}}#{{id}}</i></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
