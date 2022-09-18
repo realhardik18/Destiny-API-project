@@ -1,5 +1,6 @@
-from bot.creds import API_KEY_DESTINY
+from creds import API_KEY_DESTINY
 import requests
+import json
 
 base_url = 'https://www.bungie.net/Platform'
 header = {"x-api-key": API_KEY_DESTINY}
@@ -27,8 +28,8 @@ def GetAllValidWeapons():
                                 weaponsList.append(
                                     resp[id]['displayProperties']['name'])
                                 weaponData = {
-                                    'name': resp[id]['displayProperties']['name'],
-                                    'id': id
+                                    "name": resp[id]['displayProperties']['name'],
+                                    "id": id
                                 }
                                 dataToReturn.append(weaponData)
                     except Exception as e:
@@ -36,4 +37,33 @@ def GetAllValidWeapons():
     return dataToReturn
 
 
-# print(GetAllValidWeapons())
+def GetAllValidWeaponsAsList():
+    resp = GetAllValidWeapons()
+    weapons = list()
+    for item in resp:
+        weapons.append(item['name'])
+    return weapons
+
+
+def UpdateDataInJson():
+    with open('WeaponData.json', 'w') as f:
+        json.dump(GetAllValidWeapons(), f)
+
+
+def GetAllWeaponsDataFromJson():
+    with open('WeaponData.json', 'r') as f:
+        data = json.load(f)
+    return data
+
+
+def GetAllWeaponsNamesFromJson():
+    names = ''
+    for item in GetAllWeaponsDataFromJson():
+        names += item['name'].replace(' ', '-')+' '
+    return names
+
+
+# print(GetAllValidWeaponsAsList())
+# print(GetAllWeaponsData())
+# print(GetAllWeaponsNames())
+# print(GetAllWeaponsNamesFromJson())

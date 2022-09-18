@@ -1,7 +1,6 @@
 from http import client
-from os import access
-import re
-from flask import Flask, render_template, request, session, redirect
+from api import GetAllWeaponsDataFromJson, GetAllWeaponsNamesFromJson
+from flask import Flask, render_template, request, session, redirect, jsonify
 from zenora import APIClient
 from creds import BOT_TOKEN, REDIRECT_URL, OAUTHURL, CLIENT_SECRET, APP_SECRET_KEY
 
@@ -35,8 +34,8 @@ def home():
         bearer_client = APIClient(session['token'], bearer=True)
         current_user = bearer_client.users.get_current_user()
         edit_rights = False
-        # if current_user.id in [686898495063719939, 300503128170692620]:
-        if current_user.id in [300503128170692620]:
+        if current_user.id in [686898495063719939, 300503128170692620]:
+            # if current_user.id in [300503128170692620]:
             edit_rights = True
         return render_template('home.html', pfp=current_user.avatar_url, username=current_user.username, id=current_user.discriminator, rights=edit_rights)
     except KeyError:
@@ -48,9 +47,9 @@ def edit():
     try:
         bearer_client = APIClient(session['token'], bearer=True)
         current_user = bearer_client.users.get_current_user()
-        # if current_user.id in [686898495063719939, 300503128170692620]:
-        if current_user.id in [300503128170692620]:
-            return 'you can edit the dashboard items'
+        if current_user.id in [686898495063719939, 300503128170692620]:
+            # if current_user.id in [300503128170692620]:
+            return render_template('edit.html', pfp=current_user.avatar_url, username=current_user.username, id=current_user.discriminator, rights=True, weapons=GetAllWeaponsNamesFromJson())
         return redirect('/unauthorized')
     except KeyError:
         return redirect('/login')
@@ -59,6 +58,11 @@ def edit():
 @app.route('/unauthorized')
 def unauthorized():
     return render_template('unauthorized.html')
+
+
+@app.route("/api/weapons")
+def weapons_code():
+    return jsonify(GetAllWeaponsDataFromJson())
 
 
 app.run(debug=True)
