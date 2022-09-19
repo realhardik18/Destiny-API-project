@@ -94,3 +94,14 @@
     background-color: DodgerBlue !important;
     color: #ffffff;
   }
+
+.form-title{
+  font-size: xx-large;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  margin-left: 20px;
+}
+
+.weapon-choose{
+  margin-left: 20px;
+  margin-right: 20px;
+}

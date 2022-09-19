@@ -65,4 +65,9 @@ def weapons_code():
     return jsonify(GetAllWeaponsDataFromJson())
 
 
+@app.route("/redirect-edit", methods=['POST'])
+def edit_redirect():
+    return request.form
+
+
 app.run(debug=True)

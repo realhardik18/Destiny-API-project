@@ -24,13 +24,15 @@
             </div>
         </div>
     </div>
-    <div id="form" data-weapons="{{weapons}}">
-        <form autocomplete="off" action="/action_page.php">
-            <div class="autocomplete" style="width:300px;">
-                <input id="myInput" type="text" name="myCountry" placeholder="Search for a weapon to add">
-            </div>
-            <input type="submit">
-    </div>
+    <h1 class="form-title">Select a weapon to add</h1>
+    <form class="weapon-choose" action="/redirect-edit" method="post">
+        <div id="form" data-weapons="{{weapons}}">
+            <form autocomplete="off" action="/action_page.php">
+                <div class="autocomplete" style="width:300px;">
+                    <input id="myInput" type="text" name="weapon" placeholder="Search for a weapon to add" required>
+                </div>
+                <input type="submit" value="Add this Weapon">
+        </div>
     </form>
     <script>
         //code snippet from https://www.w3schools.com/howto/howto_js_autocomplete.asp
