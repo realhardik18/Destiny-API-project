@@ -1,5 +1,5 @@
 work on gif sort
-make command to add command in dashboard
+make command to add command in dashboard[in PROGRESS]
 work on website toggle feature
 prevwie featurea
 then work on bot
