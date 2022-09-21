@@ -3,6 +3,7 @@ from api import GetAllWeaponsDataFromJson, GetAllWeaponsNamesFromJson
 from flask import Flask, render_template, request, session, redirect, jsonify
 from zenora import APIClient
 from creds import BOT_TOKEN, REDIRECT_URL, OAUTHURL, CLIENT_SECRET, APP_SECRET_KEY
+import json
 
 app = Flask(' ')
 app.config['SECRET_KEY'] = APP_SECRET_KEY
@@ -67,7 +68,19 @@ def weapons_code():
 
 @app.route("/redirect-edit", methods=['POST'])
 def edit_redirect():
-    return request.form
+    with open('WeaponData.json', 'r') as file:
+        data = json.load(file)
+    for item in data:
+        if item['name'].replace('-', ' ') == request.form['weapon']:
+            return item
+        else:
+            pass
+    return ';('
+
+
+@app.route('/edit/weapon/<id>')
+def edit_weapon(id):
+    return id
 
 
 app.run(debug=True)
