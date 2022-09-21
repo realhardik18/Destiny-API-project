@@ -71,8 +71,8 @@ def edit_redirect():
     with open('WeaponData.json', 'r') as file:
         data = json.load(file)
     for item in data:
-        if item['name'].replace('-', ' ') == request.form['weapon']:
-            return item
+        if item['name'] == request.form['weapon']:
+            return redirect(f"/edit/weapon/{item['id']}")
         else:
             pass
     return ';('
@@ -80,7 +80,15 @@ def edit_redirect():
 
 @app.route('/edit/weapon/<id>')
 def edit_weapon(id):
-    return id
+    try:
+        bearer_client = APIClient(session['token'], bearer=True)
+        current_user = bearer_client.users.get_current_user()
+        if current_user.id in [686898495063719939, 300503128170692620]:
+            # if current_user.id in [300503128170692620]:
+            return render_template('portal.html', pfp=current_user.avatar_url, username=current_user.username, id=current_user.discriminator, rights=True)
+        return redirect('/unauthorized')
+    except KeyError:
+        return redirect('/login')
 
 
 app.run(debug=True)

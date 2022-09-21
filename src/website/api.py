@@ -28,7 +28,7 @@ def GetAllValidWeapons():
                                 weaponsList.append(
                                     resp[id]['displayProperties']['name'])
                                 weaponData = {
-                                    "name": resp[id]['displayProperties']['name'],
+                                    "name": resp[id]['displayProperties']['name'].replace(' ', '-'),
                                     "id": id
                                 }
                                 dataToReturn.append(weaponData)
@@ -41,7 +41,7 @@ def GetAllValidWeaponsAsList():
     resp = GetAllValidWeapons()
     weapons = list()
     for item in resp:
-        weapons.append(item['name'])
+        weapons.append(item['name'].replace(' ', '-'))
     return weapons
 
 
@@ -63,7 +63,29 @@ def GetAllWeaponsNamesFromJson():
     return names
 
 
+def UpdateAllDataJson():
+    resp = requests.get(url=GetJsonURL(), headers=header)
+    resp = resp.json()['DestinyInventoryItemDefinition']
+    with open('AllData.json', "w+") as file:
+        json.dump(resp, file)
+
+
 # print(GetAllValidWeaponsAsList())
 # print(GetAllWeaponsData())
 # print(GetAllWeaponsNames())
 # print(GetAllWeaponsNamesFromJson())
+# UpdateDataInJson()
+# UpdateAllDataJson()
+# print(GetJsonURL())
+
+def GetWeaponInfo(id):
+    with open('Alldata.json', 'r') as file:
+        data = json.load(file)
+        data = data[str(id)]
+    weapon_data = {
+        "name": data['displayProperties']['name'],
+        'item-type': data['itemTypeDisplayName'],
+        'flavor-text': data['flavorText'],
+        'damage-type': data['defaultDamageType']
+    }
+    return weapon_data
