@@ -1,5 +1,5 @@
 from http import client
-from api import GetAllWeaponsDataFromJson, GetAllWeaponsNamesFromJson
+from api import GetAllWeaponsDataFromJson, GetAllWeaponsNamesFromJson,GetWeaponInfo
 from flask import Flask, render_template, request, session, redirect, jsonify
 from zenora import APIClient
 from creds import BOT_TOKEN, REDIRECT_URL, OAUTHURL, CLIENT_SECRET, APP_SECRET_KEY
