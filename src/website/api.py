@@ -29,7 +29,11 @@ def GetAllValidWeapons():
                                     resp[id]['displayProperties']['name'])
                                 weaponData = {
                                     "name": resp[id]['displayProperties']['name'].replace(' ', '-'),
-                                    "id": id
+                                    "id": id,
+                                    'item-type': resp[id]['itemTypeDisplayName'],
+                                    'flavor-text': resp[id]['flavorText'],
+                                    'damage-type': resp[id]['defaultDamageType']
+
                                 }
                                 dataToReturn.append(weaponData)
                     except Exception as e:
@@ -70,6 +74,12 @@ def UpdateAllDataJson():
         json.dump(resp, file)
 
 
+def GetWeaponFromJson(id):
+    with open('WeaponData.json', 'r') as file:
+        data = json.load(file)
+        for weapon in data:
+            if weapon['id'] == str(id):
+                return weapon
 # print(GetAllValidWeaponsAsList())
 # print(GetAllWeaponsData())
 # print(GetAllWeaponsNames())
@@ -77,15 +87,3 @@ def UpdateAllDataJson():
 # UpdateDataInJson()
 # UpdateAllDataJson()
 # print(GetJsonURL())
-
-def GetWeaponInfo(id):
-    with open('Alldata.json', 'r') as file:
-        data = json.load(file)
-        data = data[str(id)]
-    weapon_data = {
-        "name": data['displayProperties']['name'],
-        'item-type': data['itemTypeDisplayName'],
-        'flavor-text': data['flavorText'],
-        'damage-type': data['defaultDamageType']
-    }
-    return weapon_data

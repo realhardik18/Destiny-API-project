@@ -1,5 +1,5 @@
 from http import client
-from api import GetAllWeaponsDataFromJson, GetAllWeaponsNamesFromJson,GetWeaponInfo
+from api import GetAllWeaponsDataFromJson, GetAllWeaponsNamesFromJson, GetWeaponFromJson
 from flask import Flask, render_template, request, session, redirect, jsonify
 from zenora import APIClient
 from creds import BOT_TOKEN, REDIRECT_URL, OAUTHURL, CLIENT_SECRET, APP_SECRET_KEY
@@ -85,7 +85,7 @@ def edit_weapon(id):
         current_user = bearer_client.users.get_current_user()
         if current_user.id in [686898495063719939, 300503128170692620]:
             # if current_user.id in [300503128170692620]:
-            return render_template('portal.html', pfp=current_user.avatar_url, username=current_user.username, id=current_user.discriminator, rights=True)
+            return render_template('portal.html', pfp=current_user.avatar_url, username=current_user.username, id=current_user.discriminator, rights=True, info=GetWeaponFromJson(id))
         return redirect('/unauthorized')
     except KeyError:
         return redirect('/login')
