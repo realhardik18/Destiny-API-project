@@ -1,6 +1,9 @@
-from creds import API_KEY_DESTINY
+from creds import API_KEY_DESTINY, WEBHOOK_URL
 import requests
 import json
+from discord_webhook import DiscordWebhook, DiscordEmbed
+import requests
+
 
 base_url = 'https://www.bungie.net/Platform'
 header = {"x-api-key": API_KEY_DESTINY}
@@ -30,9 +33,9 @@ def GetAllValidWeapons():
                                 weaponData = {
                                     "name": resp[id]['displayProperties']['name'].replace(' ', '-'),
                                     "id": id,
-                                    'item-type': resp[id]['itemTypeDisplayName'],
-                                    'flavor-text': resp[id]['flavorText'],
-                                    'damage-type': resp[id]['defaultDamageType']
+                                    'itemType': resp[id]['itemTypeDisplayName'],
+                                    'flavorText': resp[id]['flavorText'],
+                                    'damageType': resp[id]['defaultDamageType']
 
                                 }
                                 dataToReturn.append(weaponData)
@@ -80,6 +83,12 @@ def GetWeaponFromJson(id):
         for weapon in data:
             if weapon['id'] == str(id):
                 return weapon
+
+
+def sendWebhook(info):
+    webhook = DiscordWebhook(url=WEBHOOK_URL, content='test')
+    response = webhook.execute()
+
 # print(GetAllValidWeaponsAsList())
 # print(GetAllWeaponsData())
 # print(GetAllWeaponsNames())
@@ -87,3 +96,4 @@ def GetWeaponFromJson(id):
 # UpdateDataInJson()
 # UpdateAllDataJson()
 # print(GetJsonURL())
+# UpdateDataInJson()

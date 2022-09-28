@@ -10,6 +10,13 @@
 
 <body>
     {% include "navbar.html" %}
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <p>{{ message }}</p>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
     <div class="card mb-3" style="margin:20px;">
         <div class="row no-gutters">
             <div class="col-md-2">
@@ -20,9 +27,34 @@
                     <h1 class="card-title">Hello there, Welcome to the dashboard!</h1>
                     <h3 class="card-text">You are currently logged in as <i>{{username}}#{{id}}</i></h3>
                     <h5 class="card-text">Ability to edit dashboard ->{{rights}}</i></h5>
-                    <p>{{info}}</p>
+
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="card" style="margin:20px;">
+        <h5 class="card-header">Here are details for {{info.name}}</h5>
+        <div class="card-body">
+            <div class="table-responsive" style="text-align: center;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Weapon ID</th>
+                            <th scope="col">Item Type</th>
+                            <th scope="col">Damage Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{info.id}}</td>
+                            <td>{{info.itemType}}</td>
+                            <td>{{info.damageType}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h3>{{info.flavorText}}</h3>
+            <a href='/send/{{info.id}}' class="btn btn-primary">Preview Webhook</a>
         </div>
     </div>
 </body>

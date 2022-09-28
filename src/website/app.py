@@ -1,6 +1,6 @@
 from http import client
-from api import GetAllWeaponsDataFromJson, GetAllWeaponsNamesFromJson, GetWeaponFromJson
-from flask import Flask, render_template, request, session, redirect, jsonify
+from api import GetAllWeaponsDataFromJson, GetAllWeaponsNamesFromJson, GetWeaponFromJson, sendWebhook
+from flask import Flask, render_template, request, session, redirect, jsonify, flash
 from zenora import APIClient
 from creds import BOT_TOKEN, REDIRECT_URL, OAUTHURL, CLIENT_SECRET, APP_SECRET_KEY
 import json
@@ -85,10 +85,19 @@ def edit_weapon(id):
         current_user = bearer_client.users.get_current_user()
         if current_user.id in [686898495063719939, 300503128170692620]:
             # if current_user.id in [300503128170692620]:
+            print(GetWeaponFromJson(id))
             return render_template('portal.html', pfp=current_user.avatar_url, username=current_user.username, id=current_user.discriminator, rights=True, info=GetWeaponFromJson(id))
         return redirect('/unauthorized')
     except KeyError:
         return redirect('/login')
+
+
+@app.route('/send/<id>')
+def send_webhook(id):
+    data = GetWeaponFromJson(id)
+    sendWebhook(data)
+    flash('Sent an embed to the associated discord server!')
+    return redirect(f'/edit/weapon/{id}')
 
 
 app.run(debug=True)
