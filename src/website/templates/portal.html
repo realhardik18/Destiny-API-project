@@ -13,7 +13,9 @@
     {% with messages = get_flashed_messages() %}
     {% if messages %}
     {% for message in messages %}
-    <p>{{ message }}</p>
+    <div class="alert alert-primary" role="alert">
+        {{message}}
+    </div>
     {% endfor %}
     {% endif %}
     {% endwith %}
@@ -55,6 +57,7 @@
             </div>
             <h3>{{info.flavorText}}</h3>
             <a href='/send/{{info.id}}' class="btn btn-primary">Preview Webhook</a>
+            <a href='/add/{{info.id}}' class="btn btn-primary">Add Weapon</a>
         </div>
     </div>
 </body>

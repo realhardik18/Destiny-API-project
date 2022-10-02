@@ -10,6 +10,15 @@
 
 <body>
     {% include "navbar.html" %}
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-primary" role="alert">
+        {{message}}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
     <link rel="icon" type="image/x-icon" href="/static/icon.ico">
     <div class="card mb-3" style="margin:20px;">
         <div class="row no-gutters">
@@ -26,8 +35,20 @@
         </div>
     </div>
     <h1 class="weapon-title">Here is a <strong>READ-ONLY</strong> list of weapons.</h1>
-    <h1 class="weapons">Nothing to display as of now :(</h1>
-    <a class="weapons" href="/edit">Click here to add commands</a>
+    <table class="table" style="margin: 20px;">
+        <tbody>
+            {% for item in data %}
+            {% if item.seen %}
+            <tr>
+                <td class="weapons">{{item.name}}</td>
+                <td class="weapons"><a href="/edit/weapon/{{item.id}}">edit weapon</a></td>
+                <td class="weapons"><a href="/remove/{{item.id}}">remove weapon</a></td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    <a class="weapons" href="/edit">Click here to add weapons</a>
 
 </body>
 

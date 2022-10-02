@@ -1,3 +1,5 @@
+from unicodedata import name
+import discord_webhook
 from creds import API_KEY_DESTINY, WEBHOOK_URL
 import requests
 import json
@@ -35,12 +37,14 @@ def GetAllValidWeapons():
                                     "id": id,
                                     'itemType': resp[id]['itemTypeDisplayName'],
                                     'flavorText': resp[id]['flavorText'],
-                                    'damageType': resp[id]['defaultDamageType']
+                                    'damageType': resp[id]['defaultDamageType'],
+                                    "icon": base_url + resp[id]['displayProperties']['icon'],
+                                    "seen": False
 
                                 }
                                 dataToReturn.append(weaponData)
                     except Exception as e:
-                        pass
+                        print(e)
     return dataToReturn
 
 
@@ -85,9 +89,28 @@ def GetWeaponFromJson(id):
                 return weapon
 
 
+def UpdateSeenStatus(id, status):
+    with open('WeaponData.json', 'r') as file:
+        data = json.load(file)
+        for weapon in data:
+            if weapon['id'] == str(id):
+                weapon['seen'] = status
+    with open('WeaponData.json', 'w') as file:
+        json.dump(data, file)
+
+
 def sendWebhook(info):
-    webhook = DiscordWebhook(url=WEBHOOK_URL, content='test')
+    webhook = DiscordWebhook(url=WEBHOOK_URL)
+    embed = discord_webhook.DiscordEmbed(
+        title=f"Weapon info for {info['name']}", description='note this is a preview')
+    embed.add_embed_field(name='weapon id', value=str(info['id']))
+    embed.add_embed_field(name='item type', value=str(info['itemType']))
+    embed.add_embed_field(name='damage type', value=str(info['damageType']))
+    embed.add_embed_field(name='flavor text', value=str(info['flavorText']))
+    embed.set_thumbnail()
+    webhook.add_embed(embed=embed)
     response = webhook.execute()
+
 
 # print(GetAllValidWeaponsAsList())
 # print(GetAllWeaponsData())
@@ -96,4 +119,8 @@ def sendWebhook(info):
 # UpdateDataInJson()
 # UpdateAllDataJson()
 # print(GetJsonURL())
+# UpdateDataInJson()
+# print(GetJsonURL())
+# UpdateDataInJson()
+# print(GetAllValidWeapons())
 # UpdateDataInJson()

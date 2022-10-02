@@ -1,5 +1,5 @@
 from http import client
-from api import GetAllWeaponsDataFromJson, GetAllWeaponsNamesFromJson, GetWeaponFromJson, sendWebhook
+from api import GetAllWeaponsDataFromJson, GetAllWeaponsNamesFromJson, GetWeaponFromJson, sendWebhook, UpdateSeenStatus
 from flask import Flask, render_template, request, session, redirect, jsonify, flash
 from zenora import APIClient
 from creds import BOT_TOKEN, REDIRECT_URL, OAUTHURL, CLIENT_SECRET, APP_SECRET_KEY
@@ -38,7 +38,7 @@ def home():
         if current_user.id in [686898495063719939, 300503128170692620]:
             # if current_user.id in [300503128170692620]:
             edit_rights = True
-        return render_template('home.html', pfp=current_user.avatar_url, username=current_user.username, id=current_user.discriminator, rights=edit_rights)
+        return render_template('home.html', pfp=current_user.avatar_url, username=current_user.username, id=current_user.discriminator, rights=edit_rights, data=GetAllWeaponsDataFromJson())
     except KeyError:
         return redirect('/login')
 
@@ -98,6 +98,20 @@ def send_webhook(id):
     sendWebhook(data)
     flash('Sent an embed to the associated discord server!')
     return redirect(f'/edit/weapon/{id}')
+
+
+@app.route('/add/<id>')
+def add_status(id):
+    UpdateSeenStatus(id, True)
+    flash('Updated Status')
+    return redirect(f'/edit/weapon/{id}')
+
+
+@app.route('/remove/<id>')
+def remove_status(id):
+    UpdateSeenStatus(id, False)
+    flash('Updated Status')
+    return redirect('/')
 
 
 app.run(debug=True)
